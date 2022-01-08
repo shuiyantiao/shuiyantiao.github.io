@@ -12,26 +12,23 @@ jobs:
         - name: Setup .NET Core
           uses: actions/setup-dotnet@v1
           with:
-            dotnet-version: 6.0.x
+            dotnet-version: 6.0.1
 
         # Run tests
         - name: Test
           run: dotnet test
 
         # Generate the website
-        - name: Publish
-          run: dotnet publish ShirokumaBlog.csproj --configuration Release
+        - name: Deploy to Github Pages
+          run: dotnet publish ShirokumaBlog.csproj --configuration Release --output build
 
         # Publish the website
-        - name: GitHub Pages action
+        - name: Deploy to Github Pages
           if: ${{ github.ref == 'refs/heads/master' }} # Publish only when the push is on master
-          uses: peaceiris/actions-gh-pages@v3.6.1
+          uses: JamesIves/github-pages-deploy-action@releases/v3
           with:
-            github_token: ${{ secrets.PUBLISH_TOKEN }}
-            publish_branch: gh-pages
-            publish_dir: bin/Release/net6.0/publish/wwwroot
-            allow_empty_commit: false
-            keep_files: false
-            force_orphan: true
-            # TODO uncomment the following line if you have a custom domain name
-            # cname: demo.meziantou.net
+            ACCESS_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+            BASE_BRANCH: main # The branch the action should deploy from.
+            BRANCH: gh-pages # The branch the action should deploy to.
+            FOLDER: build/wwwroot # The folder the action should deploy.
+            SINGLE_COMMIT: true

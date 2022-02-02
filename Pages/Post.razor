@@ -1,0 +1,14 @@
+﻿@page "/post/{readingPost?}"
+
+
+<MarkdownRender ReadingPost=@ReadingPost/>
+
+@code {
+    [Parameter]
+    public string? ReadingPost { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ReadingPost = ReadingPost ?? "index";
+    }
+}

@@ -1,0 +1,46 @@
+﻿@inject HttpClient http
+
+
+<div class="markdown">
+    @markupString
+</div>
+
+@code {
+    private string readingPost = "postlist";
+
+    [Parameter]
+    public string ReadingPost
+    {
+        get => readingPost;
+        set
+        {
+            readingPost = value;
+        }
+    }
+
+    private MarkupString markupString;
+
+    private Markdig.MarkdownPipeline pipeline = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // build markdown pipeline on initialized then render markdown post
+        var builder = new Markdig.MarkdownPipelineBuilder();
+        builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+        pipeline = builder.Build();
+        await OnReadingPostChange();
+        await base.OnInitializedAsync();
+    }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    //await OnReadingPostChange();
+    //}
+
+    private async Task OnReadingPostChange()
+    {
+        var markdownText = await http.GetStringAsync($"post/{ReadingPost}.md");
+        markupString = new MarkupString(Markdig.Markdown.ToHtml(markdownText, pipeline));
+    }
+
+}

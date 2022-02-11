@@ -12,10 +12,7 @@
     public string ReadingPost
     {
         get => readingPost;
-        set
-        {
-            readingPost = value;
-        }
+        set => readingPost = value;
     }
 
     private MarkupString markupString;
@@ -27,6 +24,7 @@
         // build markdown pipeline on initialized then render markdown post
         var builder = new Markdig.MarkdownPipelineBuilder();
         builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+        builder.Extensions.Add(new Markdig.Extensions.Yaml.YamlFrontMatterExtension());
         pipeline = builder.Build();
         await OnReadingPostChange();
         await base.OnInitializedAsync();

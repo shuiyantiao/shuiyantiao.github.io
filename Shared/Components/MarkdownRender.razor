@@ -1,4 +1,5 @@
-﻿@inject HttpClient http
+﻿@using Markdig
+@inject HttpClient http
 
 
 <div class="markdown">
@@ -17,28 +18,34 @@
 
     private MarkupString markupString;
 
-    private Markdig.MarkdownPipeline pipeline = null;
+    private MarkdownPipeline? pipeline = null;
 
     protected override async Task OnInitializedAsync()
     {
         // build markdown pipeline on initialized then render markdown post
-        var builder = new Markdig.MarkdownPipelineBuilder();
-        builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
-        builder.Extensions.Add(new Markdig.Extensions.Yaml.YamlFrontMatterExtension());
-        pipeline = builder.Build();
-        await OnReadingPostChange();
+        pipeline = new Markdig.MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var writer = new StringWriter();
+        var renderer = new Markdig.Renderers.HtmlRenderer(writer);
+        renderer.LinkRewriter = (s =>
+        {
+            if (s.StartsWith("res"))
+                return "./post/" + s;
+            else
+                return s;
+        });
+        pipeline.Setup(renderer);
+        try
+        {
+            var markdownText = await http.GetStringAsync($"post/{ReadingPost}.md");
+            var document = Markdig.Parsers.MarkdownParser.Parse(markdownText, pipeline);
+            renderer.Render(document);
+            writer.Flush();
+            markupString = new MarkupString(writer.ToString());
+        }
+        catch (Exception)
+        {
+            markupString = new MarkupString(Markdig.Markdown.ToHtml("没有找到请求的文章", pipeline));
+        }
         await base.OnInitializedAsync();
     }
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    //await OnReadingPostChange();
-    //}
-
-    private async Task OnReadingPostChange()
-    {
-        var markdownText = await http.GetStringAsync($"post/{ReadingPost}.md");
-        markupString = new MarkupString(Markdig.Markdown.ToHtml(markdownText, pipeline));
-    }
-
 }

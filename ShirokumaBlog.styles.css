@@ -1,0 +1,188 @@
+/* /Shared/Components/MarkdownRender.razor.rz.scp.css */
+
+/* 外框样式 */
+.markdown[b-j853vg6ex8] {
+    padding: 10px;
+    /*border-width: 2px;
+    border-style: solid;
+    border-color: #D0D0D0;*/
+}
+
+/* 基本样式 */
+.markdown[b-j853vg6ex8]  table {
+    width: 100%; /*表格宽度*/
+    max-width: 65em; /*表格最大宽度，避免表格过宽*/
+    border: 1px solid #dedede; /*表格外边框设置*/
+    margin: 15px auto; /*外边距*/
+    border-collapse: collapse; /*使用单一线条的边框*/
+    empty-cells: show; /*单元格无内容依旧绘制边框*/
+}
+
+
+.markdown[b-j853vg6ex8]  table th, .markdown[b-j853vg6ex8]  table td {
+    height: 35px; /*统一每一行的默认高度*/
+    border: 1px solid #dedede; /*内部边框样式*/
+    padding: 0 10px; /*内边距*/
+}
+
+/* 表头样式 */
+.markdown[b-j853vg6ex8]  table th {
+    font-weight: bold; /*加粗*/
+    text-align: center !important; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
+    background: rgba(158,188,226,0.2); /*背景色*/
+}
+
+/* 隔行变色 */
+.markdown[b-j853vg6ex8]  table tbody tr:nth-child(2n) {
+    background: rgba(158,188,226,0.12);
+}
+
+/* 悬浮变色 */
+.markdown[b-j853vg6ex8]  table tbody tr:hover {
+    background: #efefef;
+}
+/* /Shared/MainLayout.razor.rz.scp.css */
+.page[b-hv1jzraxp7] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-hv1jzraxp7] {
+    flex: 1;
+}
+
+.sidebar[b-hv1jzraxp7] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row[b-hv1jzraxp7] {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-hv1jzraxp7]  a, .top-row[b-hv1jzraxp7]  .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+        text-decoration: none;
+    }
+
+    .top-row[b-hv1jzraxp7]  a:hover, .top-row[b-hv1jzraxp7]  .btn-link:hover {
+        text-decoration: underline;
+    }
+
+    .top-row[b-hv1jzraxp7]  a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-hv1jzraxp7] {
+        display: none;
+    }
+
+    .top-row.auth[b-hv1jzraxp7] {
+        justify-content: space-between;
+    }
+
+    .top-row[b-hv1jzraxp7]  a, .top-row[b-hv1jzraxp7]  .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page[b-hv1jzraxp7] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-hv1jzraxp7] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row[b-hv1jzraxp7] {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row.auth[b-hv1jzraxp7]  a:first-child {
+        flex: 1;
+        text-align: right;
+        width: 0;
+    }
+
+    .top-row[b-hv1jzraxp7], article[b-hv1jzraxp7] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+/* /Shared/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-vkynlmem6n] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-vkynlmem6n] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-vkynlmem6n] {
+    font-size: 1.1rem;
+}
+
+.oi[b-vkynlmem6n] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-vkynlmem6n] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-vkynlmem6n] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-vkynlmem6n] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-vkynlmem6n]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-vkynlmem6n]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-vkynlmem6n]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-vkynlmem6n] {
+        display: none;
+    }
+
+    .collapse[b-vkynlmem6n] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
